@@ -1,20 +1,30 @@
 // config/env/production/database.js
 
-module.exports = ({ env }) => ({
-  connection: {
-    client: 'postgres',
+module.exports = ({ env }) => {
+  // --- INÍCIO DO CÓDIGO DE DIAGNÓSTICO ---
+  console.log('--- Iniciando diagnóstico de variáveis de ambiente ---');
+  console.log(`Valor de PGHOST lido pelo Strapi: ${env('PGHOST')}`);
+  console.log(`Valor de PGDATABASE lido pelo Strapi: ${env('PGDATABASE')}`);
+  console.log(`Valor de PGUSER lido pelo Strapi: ${env('PGUSER')}`);
+  // Não vamos imprimir a senha para manter a segurança, mas vamos verificar se ela existe.
+  console.log(`A variável PGPASSWORD foi encontrada? ${!!env('PGPASSWORD')}`);
+  console.log('--- Fim do diagnóstico ---');
+  // --- FIM DO CÓDIGO DE DIAGNÓSTICO ---
+
+  return {
     connection: {
-      // CORREÇÃO: Usando os nomes exatos das variáveis de ambiente fornecidas pelo Neon.
-      host: env('PGHOST'),
-      port: env.int('PGPORT', 5432), // Usa a porta padrão 5432 se PGPORT não estiver definida
-      database: env('PGDATABASE'),
-      user: env('PGUSER'),
-      password: env('PGPASSWORD'),
-      ssl: {
-        // Esta configuração continua sendo crucial para conexões na nuvem.
-        rejectUnauthorized: false, 
+      client: 'postgres',
+      connection: {
+        host: env('PGHOST'),
+        port: env.int('PGPORT', 5432),
+        database: env('PGDATABASE'),
+        user: env('PGUSER'),
+        password: env('PGPASSWORD'),
+        ssl: {
+          rejectUnauthorized: false,
+        },
       },
+      debug: false,
     },
-    debug: false,
-  },
-});
+  };
+};
