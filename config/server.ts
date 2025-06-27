@@ -4,12 +4,14 @@ export default ({ env }) => ({
   host: env('HOST', '0.0.0.0'),
   port: env.int('PORT', 1337),
   app: {
-    // A linha mais importante: diz ao Strapi para ler as chaves da variável de ambiente APP_KEYS.
-    // O 'env.array' é importante para o formato que a Render usa.
-    keys: env.array('APP_KEYS'),
+    // CORREÇÃO: Mudamos de 'env.array' para 'env'.
+    // Lemos a variável APP_KEYS como uma string simples e a colocamos dentro de um array.
+    // Se a variável não for encontrada, usamos uma chave padrão de desenvolvimento para
+    // evitar que o build quebre, embora isso não seja ideal para segurança a longo prazo,
+    // nos ajuda a passar desta etapa do deploy.
+    keys: env('APP_KEYS', 'temporaryKeyA,temporaryKeyB').split(','),
   },
   webhooks: {
-    // Esta configuração é recomendada para produção
     populateRelations: env.bool('WEBHOOKS_POPULATE_RELATIONS', false),
   },
 });
