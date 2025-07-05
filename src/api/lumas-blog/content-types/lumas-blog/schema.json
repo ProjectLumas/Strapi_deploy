@@ -12,13 +12,16 @@
   "pluginOptions": {},
   "attributes": {
     "Title": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "Content": {
-      "type": "blocks"
+      "type": "blocks",
+      "required": true
     },
     "Slug": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "Description": {
       "type": "string"
